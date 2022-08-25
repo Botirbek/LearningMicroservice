@@ -1,0 +1,47 @@
+server:
+  port: 8000
+
+
+spring:
+  application:
+    name: Gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    consul:
+      enabled: true
+      discovery:
+        query-passing: true
+    gateway:
+      routes:
+        - id: inps
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/api/inps/**
+        - id: paynet
+          uri: http://localhost:8091/
+          predicates:
+            - Path=/api/paynet/**
+
+#      globalcors:
+#         cors-configurations:
+#           '[/**]':
+#           allowedOrigins: "http://localhost:3000"
+#           allowedHeaders:
+#             - "*"
+#           allowedMethods:
+#             - "GET"
+#             - "POST"
+#             - "OPTIONS"
+
+#      default-filters:
+#        -name: Retry
+#        args:
+#           retries: 3
+#           methods: GET,POST
+
+           #for logging
+logging:
+  level:
+    org.springframework.cloud.gateway.
