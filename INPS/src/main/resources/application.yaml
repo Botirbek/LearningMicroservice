@@ -3,8 +3,8 @@ spring:
     name: Inps
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: admin
+    username: admin
+    password: password
   jpa:
     show-sql: true
     hibernate:
@@ -19,7 +19,7 @@ spring:
     password: guest
 
 server:
-  port: 808${random.int(10)}
+  port: 8081
 
 eureka:
   client:
@@ -29,3 +29,33 @@ eureka:
     preferIpAddress: true
     instanceId: ${spring.application.name}:${random.uuid}
     lease-renewal-interval-in-seconds: 30
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+     exposure:
+       include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventory:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+
+
+
+

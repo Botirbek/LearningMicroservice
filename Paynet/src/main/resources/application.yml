@@ -3,8 +3,8 @@ spring:
     name: Paynet
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: admin
+    username: admin
+    password: password
   jpa:
     show-sql: true
     hibernate:

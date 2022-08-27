@@ -1,6 +1,25 @@
 server:
   port: 8000
 
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            nodeValue: TRACE
+    root: INFO
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9595/eureka
+  instance:
+    preferIpAddress: true
+    instanceId: ${spring.application.name}:${random.uuid}
+    lease-renewal-interval-in-seconds: 30
 
 spring:
   application:
@@ -23,7 +42,16 @@ spring:
           uri: http://localhost:8091/
           predicates:
             - Path=/api/paynet/**
-
+        - id: eureka
+          uri: http://localhost:9595
+          predicates:
+            - Path=/eureka/web
+          filters:
+            - SetPath=/
+        - id: eureka-static
+          uri: http://localhost:9595
+          predicates:
+            - Path=/eureka/**
 #      globalcors:
 #         cors-configurations:
 #           '[/**]':
@@ -33,15 +61,10 @@ spring:
 #           allowedMethods:
 #             - "GET"
 #             - "POST"
-#             - "OPTIONS"
+#             - "OPTIONS"1
 
-#      default-filters:
-#        -name: Retry
-#        args:
-#           retries: 3
-#           methods: GET,POST
-
-           #for logging
-logging:
-  level:
-    org.springframework.cloud.gateway.
+      default-filters:
+        -name: Retry
+        args:
+           retries: 3
+           methods: GET,POST
