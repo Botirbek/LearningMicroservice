@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="INPS" />
+        <module name="NotificationBot" />
         <module name="Eureka" />
         <module name="Paynet" />
         <module name="Gateway" />
@@ -22,7 +23,9 @@
       <module name="Eureka" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="INPS" options="-parameters" />
+      <module name="Main" options="-parameters" />
       <module name="MyHub" options="-parameters" />
+      <module name="NotificationBot" options="-parameters" />
       <module name="Paynet" options="-parameters" />
     </option>
   </component>

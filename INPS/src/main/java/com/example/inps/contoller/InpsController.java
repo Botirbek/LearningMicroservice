@@ -4,8 +4,12 @@ import com.example.inps.service.InpsService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class InpsController {
 
     private final InpsService inpsService;
+    private final WebClient.Builder webClientBuilder;
 
     @GetMapping("getSalary")
     @CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
@@ -23,6 +28,9 @@ public class InpsController {
     }
 
     public ResponseEntity<?> fallbackMethod(String pnfl, RuntimeException runtimeException){
+        String message = "Paynet service down bro :):)";
+        Mono<String> stringMono = webClientBuilder.build().get().uri("http://localhost:8071/?message="+message).retrieve().bodyToMono(String.class);
+        System.out.println(stringMono);
         return ResponseEntity.ok("OOOOOOOPs smth went wrong!");
     }
 

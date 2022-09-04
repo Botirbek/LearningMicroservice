@@ -21,6 +21,7 @@
         <module>Eureka</module>
         <module>INPS</module>
         <module>Paynet</module>
+        <module>NotificationBot</module>
     </modules>
 
     <properties>
